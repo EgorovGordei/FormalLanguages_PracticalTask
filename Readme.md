@@ -17,7 +17,7 @@ File Automate.py contains main Automate class and some dependent classes
 
 
 ### 1) Creating Automate from RegEx which accepts language L
-Programm reads symbols from RegEx, creates simple two-nodes automate if it's a letter and connects last two automates else (parallel, consequent or in cycle)
+Programm reads symbols from RegEx, creates simple two-nodes automate if it's a letter and connects last two automates else (in parallel, consequently or in cycle)
 
 ### 2) Reversing Automate
 Only works if there is exactly one finish. Programm reverses all edges and switches finish and start nodes. Now Automate accepts exactly L reversed.

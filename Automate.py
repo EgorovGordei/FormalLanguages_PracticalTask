@@ -1,9 +1,11 @@
 
 class AutomateNoWayException(Exception):
+    "Automate's exception. Indicates that there is no edge from current node with specific letter"
     pass
 
 
 class Edge:
+    "Supporting class for Automate. Contains information about edge"
     def __init__(self, index, index_from, index_to, letter):
         self.index_from = index_from
         self.index_to = index_to
@@ -15,6 +17,7 @@ class Edge:
 
 
 class Node:
+    "Supporting class for Automate. Contains information about node"
     def __init__(self, index, finish):
         self.edges = []
         self.index = index
@@ -39,6 +42,7 @@ class Automate:
         finish_node = -1
         for c in reg_ex:
             if c in ["a","b","c"]:
+                # create new sub-automate
                 self.start_node = current_node_index
                 queue.append([current_node_index, current_node_index+1])
                 self.nodes.append(Node(current_node_index, False))
@@ -48,6 +52,7 @@ class Automate:
                 current_edge_index += 1
                 current_node_index += 2
             if c == ".":
+                # connect last two automates consequently
                 last_1 = queue[-1]
                 queue.pop()
                 last_0 = queue[-1]
@@ -59,6 +64,7 @@ class Automate:
                 self.start_node = last_0[0]
                 finish_node = last_1[1]
             if c == "+":
+                # connect last two automates in parallel
                 last_1 = queue[-1]
                 queue.pop()
                 last_0 = queue[-1]
@@ -79,6 +85,7 @@ class Automate:
                 current_node_index += 2
                 current_edge_index += 4
             if c == "*":
+                # creates cycle from last automate
                 last_0 = queue[-1]
                 queue.pop()
                 queue.append([current_node_index, current_node_index])
@@ -94,6 +101,7 @@ class Automate:
         self.nodes[finish_node].finish = True
 
     def reverse(self):
+        # find finish node
         finish_node = -1
         for node in self.nodes:
             if node.finish:
@@ -103,9 +111,11 @@ class Automate:
                     raise NotImplementedError()
         if finish_node == -1:
             raise NotImplementedError()
+        # switch finish and start
         self.nodes[finish_node].finish = False
         self.nodes[self.start_node].finish = True
         self.start_node = finish_node
+        # reverse all edges
         for e in self.edges:
             e.index_from, e.index_to = e.index_to, e.index_from
         for node in self.nodes:
@@ -117,8 +127,9 @@ class Automate:
             node.new_edges = None
 
     def determinise(self):
-        # remove ""
+        # remove empty edges
         for node in self.nodes:
+            # find all nodes which are reachable via empty word
             epsylon_nodes = []
             for e in node.edges:
                 if self.edges[e].letter == "":
@@ -132,6 +143,7 @@ class Automate:
                     if self.edges[e].letter == "" and not self.edges[e].index_to in epsylon_nodes:
                         epsylon_nodes.append(self.edges[e].index_to)
                         new_nodes.append(self.edges[e].index_to)
+            # create new edges
             for n in epsylon_nodes:
                 if self.nodes[n].finish:
                     node.finish = True
@@ -141,6 +153,7 @@ class Automate:
                     if self.edges[e].letter != "":
                         self.edges.append(Edge(len(self.edges), node.index, self.edges[e].index_to, self.edges[e].letter))
                         node.add_edge(len(self.edges)-1)
+        # find finish nodes
         finish_nodes = []
         for node in self.nodes:
             if node.finish:
@@ -151,6 +164,7 @@ class Automate:
         used = set()
         edges = list()
         queue = [tuple([self.start_node])]
+        # find new nodes
         while len(queue) > 0:
             n = queue.pop()
             if n in used:
@@ -166,6 +180,7 @@ class Automate:
                 new_node.sort()
                 edges.append([n,tuple(new_node),c])
                 queue.append(tuple(new_node))
+        # construct new automate
         self.nodes = []
         self.edges = []
         nodes_indexes = dict()
@@ -181,7 +196,7 @@ class Automate:
         for e in edges:
             self.edges.append(Edge(len(self.edges), nodes_indexes[e[0]], nodes_indexes[e[1]], e[2]))
             self.nodes[nodes_indexes[e[0]]].add_edge(len(self.edges) - 1)
-        # remove nodes that do not end in finish
+        # remove nodes which can not reach finish
         bad_nodes = set()
         good_nodes = set()
         for i in range(len(self.nodes)):
@@ -229,6 +244,7 @@ class Automate:
             i += 1
 
     def bfs(self, node):
+        "returns shortest word reachable from 'node' or all visited nodes if there is no word"
         used = set([node])
         came_from = dict()
         queue = [node]
