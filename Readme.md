@@ -1,10 +1,10 @@
-RegEx to Automate translator
+# RegEx to Automate translator
 
 
 ----------------------------
 
 
--Contents
+## Contents
 
 
 Run ./test.sh to get test coverage
@@ -19,6 +19,6 @@ File Automate.py contains main Automate class and some dependent classes
 ----------------------------
 
 
--How it works
+## How it works
 
 
