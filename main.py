@@ -1,10 +1,15 @@
-regular_expression = input("Regular expression: ")
-string = input("String: ")
+from Automate import Automate, AutomateNoWayException
+
+
+#regular_expression = input("Regular expression: ")
+#string = input("String: ")
+regular_expression = "abc++*"
+string = "abb"
 
 a = Automate(regular_expression)
-a.reverse()
+#a.reverse()
 a.determinise()
-string = string[::-1]
+#string = string[::-1]
 
 a.reset()
 longest_suffix = ""
