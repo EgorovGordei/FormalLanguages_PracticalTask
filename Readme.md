@@ -28,8 +28,8 @@ First, programm removes all empty edges (with epsylon) by creating new edges fro
 
 Second, programm determinises using well-known algorithm
 
-Third, programm deletes all nodes such that it is not possible to reach finish from them and edges which lead to those nodes.
-It is helpful for last step as now it is possible to create a word starting in any node
+Third, programm deletes all nodes such that it is not possible to reach finish from them and edges which lead to those nodes. This does not change L, but
+it is helpful for last step as now it is possible to create a word starting in any node
 
 ### 4) Finding longest prefix in L reversed
 Programm reads reversed word from input letter by letter and tries to go to the next state in DFA. When it can not do this - it has found the longest suffix in L
