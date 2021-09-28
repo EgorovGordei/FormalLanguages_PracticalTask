@@ -17,10 +17,11 @@ File Automate.py contains main Automate class and some dependent classes
 
 
 ### 1) Creating Automate from RegEx which accepts language L
-Programm reads symbols from RegEx, creates simple two-nodes automate if it's a letter and connects last two automates else.
+Programm reads symbols from RegEx, creates simple two-nodes automate if it's a letter and connects last two automates else (parallel, consequent or in cycle)
 
 ### 2) Reversing Automate
-Only works if there is exactly one finish. Programm reverses all edges and switches finish and start nodes. Now Automate accepts exactly L reversed
+Only works if there is exactly one finish. Programm reverses all edges and switches finish and start nodes. Now Automate accepts exactly L reversed.
+This works because every path in new Automate can be reversed and converted into path in old Automate
 
 ### 3) Determinising
 
@@ -32,5 +33,6 @@ Third, programm deletes all nodes such that it is not possible to reach finish f
 it is helpful for last step as now it is possible to create a word starting in any node
 
 ### 4) Finding longest prefix in L reversed
-Programm reads reversed word from input letter by letter and tries to go to the next state in DFA. When it can not do this - it has found the longest suffix in L
+Programm reads reversed word from input letter by letter and tries to go to the next state in DFA. When it can not do this -
+it has found the longest prefix in L reversed which equals to the longest suffix in L
 
