@@ -1,3 +1,6 @@
+from Automate import Automate, AutomateNoWayException
+
+
 regular_expression = input("Regular expression: ")
 string = input("String: ")
 
