@@ -167,6 +167,13 @@ class Automate:
                     if self.edges[e].letter != "":
                         self.edges.append(Edge(len(self.edges), node.index, self.edges[e].index_to, self.edges[e].letter))
                         node.add_edge(len(self.edges)-1)
+        for node in self.nodes:
+            i = 0
+            while i < len(node.edges):
+                if self.edges[node.edges[i]].letter == "":
+                    node.edges = node.edges[0:i] + node.edges[i+1:]
+                    i -= 1
+                i += 1
         # find finish nodes
         finish_nodes = []
         for node in self.nodes:
